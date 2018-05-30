@@ -274,11 +274,13 @@
         var x, y, z, last_x = 0,
             last_y = 0,
             last_z = 0;
-        var speed = 3;
-        var flag;
+        var speed = 3; //开始后的红包运动的速度
+        var speeds = 15; //判断开始的速度
+        var flag = false; //判断是否开始
+        var i = 0; //计数器计算要多长时间结束
 
         function gravityinit() {
-            flag = true;　
+
 
             if (LGlobal.canTouch) {
 
@@ -306,34 +308,38 @@
 
             　　　
             x = acceleration.x;　　　　
-            y = acceleration.y;
-            // t.text = x;
-            if (Math.abs(x - last_x) > speed || Math.abs(y - last_y) > speed || Math.abs(z - last_z) > speed) {
-                t.text = x;
-                redpopLayer.x = 155 + x * 3;
-                redpopLayer.y = 250 + y * 3;
-                redpopLayer.rotate = 0 + x * 4;
-                mysetTimeout = setTimeout("shakeOver()", 5000)
+            y = acceleration.y;　　
+            if (flag == true) {
 
-            }　　　
+                if (Math.abs(x - last_x) > speed || Math.abs(y - last_y) > speed) {
+                    t.text = "开始了"
+                    redpopLayer.x = 155 + x * 3;
+                    redpopLayer.y = 250 + y * 3;
+                    redpopLayer.rotate = 0 + x * 4;
 
+                }
+
+                i = i + 1
+                if (i >= 200) {
+                    shakeOver()
+                }
+            }　
+            else {
+                if (Math.abs(x - last_x) > speeds || Math.abs(y - last_y) > speeds) {
+                    flag = true;
+                }
+            }　　
 
             　　　　
             last_x = x;　　　　
             last_y = y;　　　　　
         }
 
-        function shakeS()
-
         function shakeOver() {
-            window.clearTimeout(mysetTimeout);
             if (LGlobal.canTouch) {
                 if (window.DeviceMotionEvent) {
                     window.removeEventListener('devicemotion', deviceMotionHandler);
                 }
-                redpopLayer.x = 155;
-                redpopLayer.y = 250;
-                redpopLayer.rotate = 0;
                 LTweenLite.to(redpopLayer, 0.6, {
                     rotate: 0,
                     x: 155,
@@ -348,14 +354,14 @@
         }
 
         function titshake() {
-            LTweenLite.to(bitmaptitLayer, 0.4, {
+            LTweenLite.to(bitmaptitLayer, 0.2, {
                 rotate: 15,
-                delay: 1,
+                delay: 0.4,
                 ease: LEasing.Strong.easeOut,
                 onUpdate: function() {
                     bitmaptitLayer.getRotateXY();
                 }
-            }).to(bitmaptitLayer, 0.2, {
+            }).to(bitmaptitLayer, 0.1, {
                 rotate: -13,
                 ease: LEasing.Strong.easeOut,
                 onUpdate: function() {
@@ -387,6 +393,7 @@
 
             //随机奖项
             var id = Math.floor(Math.random() * 8);
+            t.text = id;
             //添加奖项
             redprize = redprize = new LBitmap(new LBitmapData(dataList[showPrize[id].img]));
             redprize.x = 43;
@@ -460,20 +467,20 @@
                 onComplete: function() {
                     var tip = showPrize[id].tip;
                     if (tip == '谢谢参与') {
-                        againBtn = new LButton(new LBitmap(new LBitmapData(dataList["more"], 0, 133, 384, 96)), new LBitmap(new LBitmapData(dataList["more"], 0, 133, 384, 96)));
+                        againBtn = new LButton(new LBitmap(new LBitmapData(dataList["more"], 0, 147, 384, 88)), new LBitmap(new LBitmapData(dataList["more"], 0, 147, 384, 88)));
                         againBtn.x = 91;
                         againBtn.y = 472;
                         redpopLayer.addChild(againBtn);
                         againBtn.addEventListener(LMouseEvent.MOUSE_DOWN, onagain);
                     } else {
-                        useBtn = new LButton(new LBitmap(new LBitmapData(dataList["more"], 0, 339, 384, 96)), new LBitmap(new LBitmapData(dataList["more"], 0, 339, 384, 96)));
+                        useBtn = new LButton(new LBitmap(new LBitmapData(dataList["more"], 0, 352, 384, 88)), new LBitmap(new LBitmapData(dataList["more"], 0, 352, 384, 88)));
                         useBtn.x = 91;
                         useBtn.y = 472;
                         redpopLayer.addChild(useBtn);
                         useBtn.addEventListener(LMouseEvent.MOUSE_DOWN, onuse);
                     }
 
-                    shareBtn = new LButton(new LBitmap(new LBitmapData(dataList["more"], 0, 236, 384, 96)), new LBitmap(new LBitmapData(dataList["more"], 0, 236, 384, 96)));
+                    shareBtn = new LButton(new LBitmap(new LBitmapData(dataList["more"], 0, 249, 384, 88)), new LBitmap(new LBitmapData(dataList["more"], 0, 249, 384, 88)));
                     shareBtn.x = 91;
                     shareBtn.y = 598;
 
@@ -490,6 +497,7 @@
 
         //事件
         function onagain() {
+            LTweenLite.removeAll();
             redpopLayer.removeAllChild();
             againBtn.removeEventListener(LMouseEvent.MOUSE_DOWN, onagain);
             shareBtn.removeEventListener(LMouseEvent.MOUSE_DOWN, onshare);
