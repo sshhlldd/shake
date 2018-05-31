@@ -11,6 +11,7 @@
     <script type="text/javascript" src="../Public/lib/lufylegend-1.10.1.simple.min.js"></script>
     <script type="text/javascript" src="../Public/lib/lufylegend.LoadingSample4-0.1.0.min.js"></script>
     <script type="text/javascript" src="../Public/lib/zepto.min.js"></script>
+
 </head>
 
 <body>
@@ -114,7 +115,7 @@
                     'left': sw
                 });
             }
-            LGlobal.preventDefault = true; //滚屏事件 true禁止滚平 flase滚屏
+            LGlobal.preventDefault = false; //滚屏事件 true禁止滚平 flase滚屏
             LMouseEventContainer.set(LMouseEvent.MOUSE_DOWN, false);
             LMouseEventContainer.set(LMouseEvent.MOUSE_UP, false);
             LMouseEventContainer.set(LMouseEvent.MOUSE_MOVE, false);
@@ -161,23 +162,23 @@
                 tip: "二等奖",
                 img: "prize2"
             }, {
-                tip: "三等奖",
-                img: "prize3"
+                tip: "谢谢参与",
+                img: "prize9"
             }, {
-                tip: "四等奖",
-                img: "prize4"
+                tip: "谢谢参与",
+                img: "prize9"
             }, {
-                tip: "五等奖",
-                img: "prize5"
+                tip: "谢谢参与",
+                img: "prize9"
             }, {
-                tip: "六等奖",
-                img: "prize6"
+                tip: "谢谢参与",
+                img: "prize9"
             }, {
-                tip: "七等奖",
-                img: "prize7"
+                tip: "谢谢参与",
+                img: "prize9"
             }, {
-                tip: "八等奖",
-                img: "prize8"
+                tip: "谢谢参与",
+                img: "prize9"
             }, {
                 tip: "谢谢参与",
                 img: "prize9"
@@ -207,10 +208,11 @@
             bitmaptitLayer.addChild(bitmaptit);
 
             titshake();
-            t = new LTextField();
-            t.x = 100;
-            t.y = 100;
-            backLayer.addChild(t);
+
+            /*             t = new LTextField();
+                        t.x = 100;
+                        t.y = 100;
+                        backLayer.addChild(t); */
         }
 
         function addPlayer() {
@@ -244,8 +246,8 @@
             maskObj.graphics.drawRect(0, "#ff0000", [0, 180, 599, 492]);
             redback.mask = maskObj;
             gravityinit();
-            addEvent();
 
+            addEvent();
         }
 
         function addMene() {
@@ -286,7 +288,7 @@
 
                 if (window.DeviceMotionEvent) {　　　　
                     // 移动浏览器支持运动传感事件
-                    t.text = "支持重力";
+                    //t.text = "支持重力";
                     window.addEventListener('devicemotion', deviceMotionHandler, false);
 
 
@@ -312,7 +314,6 @@
             if (flag == true) {
 
                 if (Math.abs(x - last_x) > speed || Math.abs(y - last_y) > speed) {
-                    t.text = "开始了"
                     redpopLayer.x = 155 + x * 3;
                     redpopLayer.y = 250 + y * 3;
                     redpopLayer.rotate = 0 + x * 4;
@@ -393,7 +394,6 @@
 
             //随机奖项
             var id = Math.floor(Math.random() * 8);
-            t.text = id;
             //添加奖项
             redprize = redprize = new LBitmap(new LBitmapData(dataList[showPrize[id].img]));
             redprize.x = 43;
@@ -499,6 +499,8 @@
         function onagain() {
             LTweenLite.removeAll();
             redpopLayer.removeAllChild();
+            i = 0;
+            flag = false;
             againBtn.removeEventListener(LMouseEvent.MOUSE_DOWN, onagain);
             shareBtn.removeEventListener(LMouseEvent.MOUSE_DOWN, onshare);
             $("body,html").removeClass("forbid-scroll");

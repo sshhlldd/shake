@@ -91,11 +91,11 @@
 
           $('.ec_pop').off('click', '.close')
           var modalDiv = '<div class="ec_pop">\
-            <div class="cover"></div>\
-            <div class="pop_box">\
-            <div class="pop_head"><button type="button" class="close">×</button><h4>' + tit + '</h4></div>\
-            <div class="pop_body" style="">' + html + '</div>\
-            </div></div>';
+          <div class="cover"></div>\
+          <div class="pop_box">\
+          <div class="pop_head"><button type="button" class="close">×</button><h4>' + tit + '</h4></div>\
+          <div class="pop_body" style="">' + html + '</div>\
+          </div></div>';
           $('body').append(modalDiv);
           $(".pop_box").addClass("animation-dialogue-in");
           $("body,html").addClass("forbid-scroll"); //弹出层后，禁用body和html滚动  
